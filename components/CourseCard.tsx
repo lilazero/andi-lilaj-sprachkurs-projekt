@@ -20,8 +20,14 @@ export default function CourseCard({
   price,
 }: CourseCardProps) {
   return (
-    <div className="bg-gray-300">
-      <Image src={imageUrl} alt={description} height={200} width={300} />
+    <div className="overflow-hidden bg-gray-300 rounded-lg shadow-md hover:bg-gray-400">
+      <Image
+        src={imageUrl}
+        alt={description}
+        height={200}
+        width={300}
+        className="w-full h-48 "
+      />
       <div className="px-3">
         <h3 className="text-xl font-bold">{title}</h3>
       </div>

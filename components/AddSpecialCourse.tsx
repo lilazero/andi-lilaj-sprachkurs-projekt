@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import CourseCard from "./CourseCard";
 import { DialogClose } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Course } from "@/lib/types";
@@ -13,7 +12,6 @@ interface AddSpecialCourseProps {
 export default function AddSpecialCourse({
   setCourses,
 }: AddSpecialCourseProps) {
-  const [specialCourses, setSpecialCourses] = useState<Course[]>([]);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -52,12 +50,10 @@ export default function AddSpecialCourse({
         : undefined,
     };
 
-    // Add to local display
-    setSpecialCourses([...specialCourses, newCourse]);
-
     // Add to main course list
     setCourses((prevCourses) => [...prevCourses, newCourse]);
 
+    // Reset form
     setFormData({
       title: "",
       description: "",
@@ -248,33 +244,6 @@ export default function AddSpecialCourse({
           </DialogClose>
         </div>
       </form>
-
-      {specialCourses.length > 0 && (
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold mb-4">
-            Hinzugefügte Spezialkurse
-          </h3>
-          <div className="grid grid-cols-1 gap-4">
-            {specialCourses.map((course) => (
-              <CourseCard
-                key={course.id}
-                id={course.id}
-                title={course.title}
-                description={course.description}
-                imageUrl={course.imageUrl}
-                price={course.price}
-                courseDuration={course.courseDuration}
-                level={course.level}
-                difficultyrating={course.rating}
-                graduates={course.graduates}
-                tags={course.tags}
-                reviews={course.reviews}
-                features={course.features}
-              />
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -50,7 +50,10 @@ interface CourseCardProps {
   reviews?: number;
   features?: Feature[];
   isSelected?: boolean;
+  quantity?: number;
   onToggleSelect?: () => void;
+  onIncreaseQuantity?: () => void;
+  onDecreaseQuantity?: () => void;
 }
 
 export default function CourseCard(props: CourseCardProps) {
@@ -64,7 +67,10 @@ export default function CourseCard(props: CourseCardProps) {
     reviews,
     features,
     isSelected = false,
+    quantity = 1,
     onToggleSelect,
+    onIncreaseQuantity,
+    onDecreaseQuantity,
   } = props;
 
   // Map of icon name (as stored in mock data) to lucide-react components.
@@ -228,14 +234,15 @@ export default function CourseCard(props: CourseCardProps) {
                           className="col-span-2 text-white cursor-pointer transition-colors bg-green-600 hover:bg-green-700 rounded-b-none"
                         >
                           <Check className="w-4 h-4 mr-2" />
-                          SELECTED
+                          SELECTED ({quantity}{" "}
+                          {quantity === 1 ? "Person" : "People"})
                         </Button>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                // Handle decrease quantity
+                                onDecreaseQuantity?.();
                               }}
                               className="text-white mb-2 cursor-pointer transition-colors bg-red-400 hover:bg-red-500 rounded-t-none rounded-r-none"
                             >
@@ -251,7 +258,7 @@ export default function CourseCard(props: CourseCardProps) {
                             <Button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                // Handle increase quantity
+                                onIncreaseQuantity?.();
                               }}
                               className="text-white mb-2 cursor-pointer transition-colors bg-blue-600 hover:bg-blue-800 rounded-t-none rounded-l-none"
                             >

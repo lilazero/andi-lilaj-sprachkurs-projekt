@@ -6,11 +6,11 @@ import { Button } from "./ui/button";
 import { Course } from "@/lib/types";
 
 interface AddSpecialCourseProps {
-  setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+  onAddCourse: (course: Course) => void;
 }
 
 export default function AddSpecialCourse({
-  setCourses,
+  onAddCourse,
 }: AddSpecialCourseProps) {
   const [formData, setFormData] = useState({
     title: "",
@@ -51,7 +51,7 @@ export default function AddSpecialCourse({
     };
 
     // Add to main course list
-    setCourses((prevCourses) => [...prevCourses, newCourse]);
+    onAddCourse(newCourse);
 
     // Reset form
     setFormData({

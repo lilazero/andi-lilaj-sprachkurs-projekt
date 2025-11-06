@@ -5,21 +5,24 @@ import { Course } from "@/lib/types";
 
 interface CourseListProps {
   courses: Course[];
-  setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
-  selectedCourses: Set<string>;
+  selectedCourses: { courseId: string; quantity: number }[];
   toggleCourseSelection: (courseId: string) => void;
+  updateCourseQuantity: (courseId: string, delta: number) => void;
 }
 
 export default function CourseList({
   courses,
   selectedCourses,
   toggleCourseSelection,
+  updateCourseQuantity,
 }: CourseListProps) {
   return (
-    <div className="">
-      {/* responsive grid layout */}
-      <div className="grid  grid-cols-3 gap-10 max-[1825px]:grid-cols-2 max-[1210px]:grid-cols-1 my-5">
-        {courses.map((courseListData) => (
+    <div className="grid grid-cols-3 gap-10 max-[1825px]:grid-cols-2 max-[1210px]:grid-cols-1 my-5">
+      {courses.map((courseListData) => {
+        const selected = selectedCourses.find(
+          (item) => item.courseId === courseListData.id
+        );
+        return (
           <CourseCard
             key={courseListData.id}
             id={courseListData.id}
@@ -34,11 +37,18 @@ export default function CourseList({
             reviews={courseListData.reviews}
             features={courseListData.features}
             graduates={courseListData.graduates}
-            isSelected={selectedCourses.has(courseListData.id)}
+            isSelected={!!selected}
+            quantity={selected?.quantity || 1}
             onToggleSelect={() => toggleCourseSelection(courseListData.id)}
+            onIncreaseQuantity={() =>
+              updateCourseQuantity(courseListData.id, 1)
+            }
+            onDecreaseQuantity={() =>
+              updateCourseQuantity(courseListData.id, -1)
+            }
           />
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 }

@@ -8,6 +8,8 @@ import {
   type HTMLAttributes,
   type MouseEventHandler,
   useContext,
+  useState,
+  useEffect,
 } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -138,5 +140,79 @@ export const BannerClose = ({
     >
       <XIcon size={18} />
     </Button>
+  );
+};
+
+export const BannerLocal = ({
+  storageKey = "site:banner:closed",
+  children,
+  defaultVisible = true,
+  expiresDays = null,
+  expired = false,
+  ...props
+}: {
+  storageKey?: string;
+  /* * Number of days after which the dismissal expires and the banner is shown again. If null, 
+  never expires. */
+  expiresDays?: number | null;
+  /** When true, treat the stored dismissal as expired (clear storage) and show the banner.
+   * So i can programatically reset. */
+  expired?: boolean;
+} & BannerProps) => {
+  const [show, setShow] = useState<boolean | null>(() => {
+    try {
+      if (typeof window === "undefined") return null;
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) return defaultVisible;
+      const data = JSON.parse(raw);
+      if (data && typeof data.closedAt === "number") {
+        if (typeof expiresDays === "number") {
+          const ms = expiresDays * 24 * 60 * 60 * 1000;
+          if (Date.now() - data.closedAt > ms) {
+            // expired — clear stored flag and show
+            localStorage.removeItem(storageKey);
+            return defaultVisible;
+          }
+          // not expired — keep hidden
+          return false;
+        }
+        // no expiry configured — keep hidden
+        return false;
+      }
+      return defaultVisible;
+    } catch {
+      return defaultVisible;
+    }
+  });
+
+  // If parent explicitly marks as expired, clear storage and show again.
+  useEffect(() => {
+    if (!expired) return;
+    try {
+      localStorage.removeItem(storageKey);
+    } catch {
+      // ignore
+    }
+    // schedule setState async to avoid synchronous state update inside effect
+    Promise.resolve().then(() => setShow(defaultVisible));
+  }, [expired, storageKey, defaultVisible]);
+
+  const handleClose = () => {
+    try {
+      const payload = JSON.stringify({ closedAt: Date.now() });
+      localStorage.setItem(storageKey, payload);
+    } catch {
+      // ignore quota errors
+    }
+    setShow(false);
+  };
+
+  // avoid flashing before localStorage is checked
+  if (show === null) return null;
+
+  return (
+    <Banner visible={show} onClose={handleClose} {...props}>
+      {children}
+    </Banner>
   );
 };

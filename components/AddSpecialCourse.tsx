@@ -19,7 +19,8 @@ export default function AddSpecialCourse({
     courseDuration: "1",
     level: "",
     difficultyrating: 1,
-    imageUrl: "",
+    imageUrl:
+      "https://cdn.pixabay.com/photo/2024/01/18/10/37/letter-tiles-8516699_960_720.jpg",
     graduates: 0,
     tags: "",
     reviews: 0,
@@ -160,7 +161,7 @@ export default function AddSpecialCourse({
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">
-            Bild URL (optional)
+            Bild URL (optional) (nur aus cdn.pixabay.com)
           </label>
           <input
             type="url"
@@ -169,7 +170,6 @@ export default function AddSpecialCourse({
               setFormData({ ...formData, imageUrl: e.target.value })
             }
             className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
-            placeholder="https://example.com/image.jpg"
           />
         </div>
         <div>
@@ -220,7 +220,7 @@ export default function AddSpecialCourse({
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">
-            Features (optional, Semikolon-getrennt, Format: Icon:Text)
+            Features (optional, Semikolon-getrennt, Format: lucideIcon:Text)
           </label>
           <textarea
             value={formData.features}

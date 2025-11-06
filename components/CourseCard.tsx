@@ -19,17 +19,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
-import {
-  Book,
-  Laptop,
-  BookAIcon,
-  Fingerprint,
-  Mic,
-  Target,
-  Check,
-  Minus,
-  Plus,
-} from "lucide-react";
+import * as LucideIcons from "lucide-react";
+import { Book, Check, Minus, Plus, Target } from "lucide-react";
 
 type Feature = {
   icon: string;
@@ -74,12 +65,10 @@ export default function CourseCard(props: CourseCardProps) {
   } = props;
 
   // Map of icon name (as stored in mock data) to lucide-react components.
-  const ICON_MAP: Record<string, React.ElementType> = {
-    Laptop,
-    BookAIcon,
-    Fingerprint,
-    Mic,
-    Book,
+  const getIconComponent = (iconName: string): React.ElementType | null => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const Icon = (LucideIcons as any)[iconName];
+    return Icon || null;
   };
 
   // Default image if none provided
@@ -200,7 +189,7 @@ export default function CourseCard(props: CourseCardProps) {
                 </p>
                 <div className="space-y-3">
                   {features?.map((feature, idx) => {
-                    const Icon = ICON_MAP[feature.icon];
+                    const Icon = getIconComponent(feature.icon);
                     return (
                       <div
                         key={idx}

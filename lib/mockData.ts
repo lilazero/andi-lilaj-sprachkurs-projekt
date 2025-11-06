@@ -28,7 +28,7 @@ export const courseList = [
       "https://cdn.pixabay.com/photo/2024/01/18/10/37/letter-tiles-8516699_960_720.jpg",
     courseDuration: "1 Month",
     description: "A Course building on the basics of German language.",
-    price: 79.99,
+    price: 1000,
     graduates: 1000,
     rating: 2,
     tags: ["basic", "extra practice"],

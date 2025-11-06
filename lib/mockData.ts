@@ -8,6 +8,17 @@ export const courseList = [
     courseDuration: "2 weeks",
     description: "An introductory course to German language.",
     price: 59.99,
+    graduates: 4400,
+    rating: 2,
+    //the first one will be shown when card is collapsed
+    tags: ["available online", "introductory", "books included"],
+    reviews: 2048,
+    features: [
+      { icon: "Laptop", text: "The entire course can be done online" },
+      { icon: "BookAIcon", text: "E-books" },
+      { icon: "Fingerprint", text: "Extra homework by request" },
+      { icon: "Mic", text: "Questions in English possible" },
+    ],
   },
   {
     id: "2",
@@ -18,6 +29,10 @@ export const courseList = [
     courseDuration: "1 Month",
     description: "A Course building on the basics of German language.",
     price: 79.99,
+    graduates: 2200,
+    rating: 2,
+    tags: ["basic", "extra practice"],
+    reviews: 1024,
   },
   {
     id: "3",
@@ -28,6 +43,10 @@ export const courseList = [
     courseDuration: "1 Year",
     description: "Mid-level course to enhance German skills.",
     price: 99.99,
+    graduates: 1100,
+    rating: 4,
+    tags: ["introductory"],
+    reviews: 512,
   },
   {
     id: "4",
@@ -39,6 +58,9 @@ export const courseList = [
     description:
       "With a B2 level, you can understand the main ideas of complex texts on both concrete and abstract topics, including technical discussions in your field of specialization.",
     price: 119.99,
+    graduates: 800,
+    rating: 4,
+    reviews: 256,
   },
   {
     id: "5",
@@ -50,6 +72,9 @@ export const courseList = [
     description:
       "A course designed for advanced learners aiming for proficiency.",
     price: 149.99,
+    graduates: 340,
+    rating: 5,
+    reviews: 128,
   },
   {
     id: "6",
@@ -60,5 +85,9 @@ export const courseList = [
     courseDuration: "1 Year",
     description: "The C2 level signifies mastery of the language",
     price: 199.99,
+    graduates: 123,
+    rating: 8,
+    tags: ["beginner", "basic", "introductory"], //Normalization much?
+    reviews: 64,
   },
 ];

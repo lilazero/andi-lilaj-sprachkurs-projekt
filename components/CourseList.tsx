@@ -6,9 +6,15 @@ import { Course } from "@/lib/types";
 interface CourseListProps {
   courses: Course[];
   setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+  selectedCourses: Set<string>;
+  toggleCourseSelection: (courseId: string) => void;
 }
 
-export default function CourseList({ courses }: CourseListProps) {
+export default function CourseList({
+  courses,
+  selectedCourses,
+  toggleCourseSelection,
+}: CourseListProps) {
   return (
     <div className="">
       {/* responsive grid layout */}
@@ -28,6 +34,8 @@ export default function CourseList({ courses }: CourseListProps) {
             reviews={courseListData.reviews}
             features={courseListData.features}
             graduates={courseListData.graduates}
+            isSelected={selectedCourses.has(courseListData.id)}
+            onToggleSelect={() => toggleCourseSelection(courseListData.id)}
           />
         ))}
       </div>

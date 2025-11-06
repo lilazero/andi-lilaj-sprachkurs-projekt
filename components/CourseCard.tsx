@@ -20,6 +20,7 @@ import {
   Fingerprint,
   Mic,
   Target,
+  Check,
 } from "lucide-react";
 
 type Feature = {
@@ -40,6 +41,8 @@ interface CourseCardProps {
   tags?: string[];
   reviews?: number;
   features?: Feature[];
+  isSelected?: boolean;
+  onToggleSelect?: () => void;
 }
 
 export default function CourseCard(props: CourseCardProps) {
@@ -52,6 +55,8 @@ export default function CourseCard(props: CourseCardProps) {
     tags,
     reviews,
     features,
+    isSelected = false,
+    onToggleSelect,
   } = props;
 
   // Map of icon name (as stored in mock data) to lucide-react components.
@@ -190,9 +195,28 @@ export default function CourseCard(props: CourseCardProps) {
                       </div>
                     );
                   })}
-                  <Button className="w-full mb-1 text-white cursor-pointer bg-blue-600 hover:bg-blue-800">
-                    <Target className="w-4 h-4 mr-2 " />
-                    SELECT
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleSelect?.();
+                    }}
+                    className={`w-full mb-1 text-white cursor-pointer transition-colors ${
+                      isSelected
+                        ? "bg-green-600 hover:bg-green-700"
+                        : "bg-blue-600 hover:bg-blue-800"
+                    }`}
+                  >
+                    {isSelected ? (
+                      <>
+                        <Check className="w-4 h-4 mr-2" />
+                        SELECTED
+                      </>
+                    ) : (
+                      <>
+                        <Target className="w-4 h-4 mr-2" />
+                        SELECT
+                      </>
+                    )}
                   </Button>
                 </div>
               </ExpandableContent>

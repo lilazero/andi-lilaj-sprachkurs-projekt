@@ -58,7 +58,11 @@ export default function Home() {
           0
         )}
       >
-        <Header onAddCourse={addCourse} />
+        <Header
+          onAddCourse={addCourse}
+          courses={courses}
+          selectedCourses={selectedCourses}
+        />
         <div className="min-h-vh mt-20 justify-center w-full bg-zinc-50 max-w-[80%] font-sans dark:bg-black relative">
           {/* course list */}
           <CourseList

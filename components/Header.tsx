@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { Button as ShoppingButton } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Plus } from "lucide-react";
+import { ShoppingCart as ShoppingCartIcon, Plus } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -11,15 +11,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import ShoppingCart from "./ui/shoppingCart";
 import AddSpecialCourse from "./AddSpecialCourse";
 import { Course } from "@/lib/types";
 import { CartContext } from "@/context/CourseSelectionContext";
 
 interface HeaderProps {
   onAddCourse: (course: Course) => void;
+  courses: Course[];
+  selectedCourses: { courseId: string; quantity: number }[];
 }
 
-export default function Header({ onAddCourse }: HeaderProps) {
+export default function Header({
+  onAddCourse,
+  courses,
+  selectedCourses,
+}: HeaderProps) {
   const { totalPersons } = useContext(CartContext);
 
   return (
@@ -29,21 +36,33 @@ export default function Header({ onAddCourse }: HeaderProps) {
           Course Platform
         </h1>
         <div className="flex gap-3 items-center">
-          <div className="relative">
-            <ShoppingButton
-              className="bg-blue-600 hover:bg-blue-800 text-white"
-              variant="outline"
-              onClick={console.log}
-            >
-              <ShoppingCart />
-              Cart
-            </ShoppingButton>
-            {totalPersons > 0 && (
-              <Badge className="absolute -top-2 -right-2 bg-red-600 text-white px-2 py-0.5 text-xs font-bold rounded-full min-w-5 h-5 flex items-center justify-center">
-                {totalPersons}
-              </Badge>
-            )}
-          </div>
+          <Dialog>
+            <DialogTrigger asChild>
+              <div className="relative cursor-pointer">
+                <ShoppingButton
+                  className="bg-blue-600 hover:bg-blue-800 text-white"
+                  variant="outline"
+                >
+                  <ShoppingCartIcon />
+                  Cart
+                </ShoppingButton>
+                {totalPersons > 0 && (
+                  <Badge className="absolute -top-2 -right-2 bg-red-600 text-white px-2 py-0.5 text-xs font-bold rounded-full min-w-5 h-5 flex items-center justify-center">
+                    {totalPersons}
+                  </Badge>
+                )}
+              </div>
+            </DialogTrigger>
+            <DialogContent className="max-w-3xl">
+              <DialogHeader>
+                <DialogTitle>Shopping Cart</DialogTitle>
+              </DialogHeader>
+              <ShoppingCart
+                courses={courses}
+                selectedCourses={selectedCourses}
+              />
+            </DialogContent>
+          </Dialog>
 
           <Dialog>
             <DialogTrigger asChild>

@@ -27,7 +27,9 @@ export default function Home() {
             <BannerTitle>
               This Website uses Cookies to facilitate the User Experience. Like
               Remembering you closing this Banner. By continuing to use this
-              site, you agree to our use of cookies.
+              site, you agree to our use of cookies. Pictures are courtesy of
+              mathewbrowne, analogicus, monika1607, Sprachschuleaktiv per
+              Pixabay.com
             </BannerTitle>
             <BannerClose />
           </BannerLocal>

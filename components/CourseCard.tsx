@@ -95,7 +95,7 @@ export default function CourseCard(props: CourseCardProps) {
                   </Badge>
                 ) : null}
                 <Badge variant="outline" className="ml-2">
-                  {`$${price.toFixed(2)}`}
+                  {`€${price.toFixed(2)}`}
                 </Badge>
               </div>
             </ExpandableCardHeader>

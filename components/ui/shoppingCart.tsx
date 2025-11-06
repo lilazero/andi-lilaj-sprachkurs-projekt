@@ -12,6 +12,7 @@ import {
 } from "./table";
 import { Button } from "./button";
 import { Plus, Minus } from "lucide-react";
+import { Spinner } from "./spinner";
 
 interface ShoppingCartProps {
   courses: Course[];
@@ -23,6 +24,7 @@ export const ShoppingCart = ({
   selectedCourses,
 }: ShoppingCartProps) => {
   const [accommodationCount, setAccommodationCount] = useState(0);
+  const [isProcessing, setIsProcessing] = useState(false);
   const accommodationPrice = 500;
 
   if (selectedCourses.length === 0) {
@@ -36,6 +38,13 @@ export const ShoppingCart = ({
 
   const totalWithAccommodation =
     coursesTotal + accommodationCount * accommodationPrice;
+
+  const handlePayment = () => {
+    setIsProcessing(true);
+    setTimeout(() => {
+      setIsProcessing(false);
+    }, 5000);
+  };
 
   return (
     <div>
@@ -108,6 +117,23 @@ export const ShoppingCart = ({
           </TableRow>
         </TableBody>
       </Table>
+
+      <div className="mt-6 flex justify-end">
+        <Button
+          onClick={handlePayment}
+          disabled={isProcessing}
+          className="bg-green-600 hover:bg-green-700 text-white px-8"
+        >
+          {isProcessing ? (
+            <div className="flex items-center gap-2">
+              <Spinner className="h-4 w-4" />
+              Processing...
+            </div>
+          ) : (
+            "Confirm"
+          )}
+        </Button>
+      </div>
     </div>
   );
 };

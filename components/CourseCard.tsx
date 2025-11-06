@@ -30,12 +30,13 @@ type Feature = {
 interface CourseCardProps {
   id: string;
   title: string;
-  level: string;
-  imageUrl: string;
+  level?: string;
+  imageUrl?: string;
   courseDuration: string;
   description: string;
   price: number;
   difficultyrating: number;
+  graduates?: number;
   tags?: string[];
   reviews?: number;
   features?: Feature[];
@@ -61,6 +62,11 @@ export default function CourseCard(props: CourseCardProps) {
     Mic,
     Book,
   };
+
+  // Default image if none provided
+  const displayImageUrl =
+    imageUrl || "https://via.placeholder.com/200x180?text=No+Image";
+
   return (
     <Expandable
       expandDirection="vertical"
@@ -97,7 +103,7 @@ export default function CourseCard(props: CourseCardProps) {
               <div className="flex gap-3 items-start ">
                 <div className="w-[250px] h-[140px]  ">
                   <Image
-                    src={imageUrl}
+                    src={displayImageUrl}
                     alt={title}
                     width={200}
                     height={180}

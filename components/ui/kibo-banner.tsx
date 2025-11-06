@@ -159,11 +159,17 @@ export const BannerLocal = ({
    * So i can programatically reset. */
   expired?: boolean;
 } & BannerProps) => {
-  const [show, setShow] = useState<boolean | null>(() => {
+  const [show, setShow] = useState<boolean | null>(null);
+
+  // Initialize client-only state after mount to avoid SSR/client mismatch.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
     try {
-      if (typeof window === "undefined") return null;
       const raw = localStorage.getItem(storageKey);
-      if (!raw) return defaultVisible;
+      if (!raw) {
+        Promise.resolve().then(() => setShow(defaultVisible));
+        return;
+      }
       const data = JSON.parse(raw);
       if (data && typeof data.closedAt === "number") {
         if (typeof expiresDays === "number") {
@@ -171,19 +177,22 @@ export const BannerLocal = ({
           if (Date.now() - data.closedAt > ms) {
             // expired — clear stored flag and show
             localStorage.removeItem(storageKey);
-            return defaultVisible;
+            Promise.resolve().then(() => setShow(defaultVisible));
+            return;
           }
           // not expired — keep hidden
-          return false;
+          Promise.resolve().then(() => setShow(false));
+          return;
         }
         // no expiry configured — keep hidden
-        return false;
+        Promise.resolve().then(() => setShow(false));
+        return;
       }
-      return defaultVisible;
+      Promise.resolve().then(() => setShow(defaultVisible));
     } catch {
-      return defaultVisible;
+      Promise.resolve().then(() => setShow(defaultVisible));
     }
-  });
+  }, [storageKey, expiresDays, defaultVisible]);
 
   // If parent explicitly marks as expired, clear storage and show again.
   useEffect(() => {
@@ -193,7 +202,6 @@ export const BannerLocal = ({
     } catch {
       // ignore
     }
-    // schedule setState async to avoid synchronous state update inside effect
     Promise.resolve().then(() => setShow(defaultVisible));
   }, [expired, storageKey, defaultVisible]);
 

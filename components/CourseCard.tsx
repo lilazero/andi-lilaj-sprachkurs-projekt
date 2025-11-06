@@ -205,7 +205,7 @@ export default function CourseCard(props: CourseCardProps) {
                       </div>
                     );
                   })}
-
+                  {/* BUTTONS AREA*/}
                   {!isSelected ? (
                     <Button
                       onClick={(e) => {
@@ -253,7 +253,7 @@ export default function CourseCard(props: CourseCardProps) {
                                 e.stopPropagation();
                                 // Handle increase quantity
                               }}
-                              className="text-white mb-2cursor-pointer transition-colors bg-blue-600 hover:bg-blue-800 rounded-t-none rounded-l-none"
+                              className="text-white mb-2 cursor-pointer transition-colors bg-blue-600 hover:bg-blue-800 rounded-t-none rounded-l-none"
                             >
                               <Plus className="w-4 h-4" />
                             </Button>

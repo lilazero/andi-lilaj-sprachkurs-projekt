@@ -14,6 +14,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
+import {
   Book,
   Laptop,
   BookAIcon,
@@ -21,6 +27,8 @@ import {
   Mic,
   Target,
   Check,
+  Minus,
+  Plus,
 } from "lucide-react";
 
 type Feature = {
@@ -151,6 +159,7 @@ export default function CourseCard(props: CourseCardProps) {
                       );
                     })}
                     <AnimatePresence mode="wait">
+                      {/* number of reviews */}
                       {isExpanded ? (
                         <motion.span
                           key="expanded"
@@ -163,6 +172,7 @@ export default function CourseCard(props: CourseCardProps) {
                           {reviews} Reviews
                         </motion.span>
                       ) : (
+                        // only (number) of reviews
                         <motion.span
                           key="collapsed"
                           initial={{ opacity: 0, width: 0 }}
@@ -195,29 +205,66 @@ export default function CourseCard(props: CourseCardProps) {
                       </div>
                     );
                   })}
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onToggleSelect?.();
-                    }}
-                    className={`w-full mb-1 text-white cursor-pointer transition-colors ${
-                      isSelected
-                        ? "bg-green-600 hover:bg-green-700"
-                        : "bg-blue-600 hover:bg-blue-800"
-                    }`}
-                  >
-                    {isSelected ? (
-                      <>
-                        <Check className="w-4 h-4 mr-2" />
-                        SELECTED
-                      </>
-                    ) : (
-                      <>
-                        <Target className="w-4 h-4 mr-2" />
-                        SELECT
-                      </>
-                    )}
-                  </Button>
+
+                  {!isSelected ? (
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleSelect?.();
+                      }}
+                      className="w-full mb-4 text-white cursor-pointer transition-colors bg-blue-600 hover:bg-blue-800"
+                    >
+                      <Target className="w-4 h-4 mr-2" />
+                      SELECT
+                    </Button>
+                  ) : (
+                    <TooltipProvider>
+                      <div className="w-full h-full grid grid-cols-2 gap-0">
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onToggleSelect?.();
+                          }}
+                          className="col-span-2 text-white cursor-pointer transition-colors bg-green-600 hover:bg-green-700 rounded-b-none"
+                        >
+                          <Check className="w-4 h-4 mr-2" />
+                          SELECTED
+                        </Button>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                // Handle decrease quantity
+                              }}
+                              className="text-white mb-2 cursor-pointer transition-colors bg-red-400 hover:bg-red-500 rounded-t-none rounded-r-none"
+                            >
+                              <Minus className="w-4 h-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Remove Person</p>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                // Handle increase quantity
+                              }}
+                              className="text-white mb-2cursor-pointer transition-colors bg-blue-600 hover:bg-blue-800 rounded-t-none rounded-l-none"
+                            >
+                              <Plus className="w-4 h-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Add Person</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                    </TooltipProvider>
+                  )}
                 </div>
               </ExpandableContent>
             </ExpandableCardContent>

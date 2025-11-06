@@ -63,7 +63,7 @@ export default function Home() {
           courses={courses}
           selectedCourses={selectedCourses}
         />
-        <div className="min-h-vh my-20 justify-center w-full bg-zinc-50 max-w-[80%] font-sans dark:bg-black relative">
+        <div className="min-h-screen my-20 justify-center w-full bg-zinc-50 max-w-[80%] font-sans dark:bg-black relative">
           {/* course list */}
           <CourseList
             courses={courses}
